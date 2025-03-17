@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para Arlett - La Rosa Encantada</title>
+  <style>
+    /* Variables CSS */
+    :root {
+      --dark-background: #111;
+      --primary-blue: #191970;
+      --secondary-blue: #000033;
+      --grass-color-start: #004D40;
+      --grass-color-end: #006064;
+      --leaf-green-light: #2E7D32;
+      --leaf-green-dark: #228B22;
+      --petal-color: #ff1493;
+      --stem-color: #4a8349;
+      --base-color: rgba(128, 0, 128, 0.5);
+      --dome-glass-color:  rgba(255, 255, 255, 0.1);
+      --dome-border-color: rgba(255, 255, 255, 0.2);
+      --moon-color-light: #fffaf0;
+      --moon-color-dark: #eee8aa;
+      --shooting-star-color: rgba(255, 255, 255, 0.8);
+      --dew-drop-color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Resets */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body */
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: var(--dark-background);
+      overflow: hidden;
+      cursor: pointer; /* Cursor de "mano" para indicar interactividad */
+    }
+
+    /* Container */
+    .container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      height: 100vh;
+      max-height: 800px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Circle */
+    .circle-container {
+      position: relative;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: linear-gradient(to bottom, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(0, 0, 255, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: backgroundPulse 20s infinite alternate;
+    }
+
+    @keyframes backgroundPulse {
+      0% { background: linear-gradient(to bottom, var(--primary-blue) 0%, var(--secondary-blue) 100%); }
+      50% { background: linear-gradient(to bottom, #1a237e 0%, var(--secondary-blue) 100%); }
+      100% { background: linear-gradient(to bottom, #0d47a1 0%, var(--secondary-blue) 100%); }
+    }
+
+    /* Grass */
+    .foreground-grass {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 120px;
+      background: linear-gradient(to top, var(--grass-color-start) 0%, var(--grass-color-end) 100%);
+      border-top-left-radius: 50% 40px;
+      border-top-right-radius: 50% 40px;
+      animation: grassColor 15s infinite alternate;
+      z-index: 1;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cfilter id='noiseFilter' x='0%' y='0%' width='100%' height='100%' filterUnits='objectBoundingBox' primitiveUnits='userSpaceOnUse' color-interpolation-filters='linearRGB'%3E%3Cfg id='noiseTexture'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' seed='2' stitchTiles='stitch' result='noise'%3E%3C/feTurbulence%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.1 0' in='noise' result='noiseOutput'%3E%3C/feColorMatrix%3E%3C/cg%3E%3C/filter%3E%3Crect style='fill:transparent;stroke:none;' width='100%' height='100%'/%3E%3Cuse filter='url(%23noiseFilter)' xlink:href='%23noiseTexture' style='opacity: 0.05;'/><"); /* Textura ligera al pasto */
+    }
+
+    @keyframes grassColor {
+      0% { background: linear-gradient(to top, var(--grass-color-start) 0%, var(--grass-color-end) 100%); }
+      50% { background: linear-gradient(to top, #00695c 0%, #00796b 100%); }
+      100% { background: linear-gradient(to top, var(--grass-color-start) 0%, var(--grass-color-end) 100%); }
+    }
+
+    .foreground-blade {
+      position: absolute;
+      bottom: 0;
+      width: 4px;
+      height: 15px;
+      background: #00796B;
+      border-radius: 2px 2px 0 0;
+      animation: sway 5s ease-in-out infinite;
+    }
+
+    @keyframes sway {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(5deg); }
+      75% { transform: rotate(-5deg); }
+    }
+
+    .foreground-blade:nth-child(1) { left: 12%; animation-delay: 0s; height: 18px; }
+    .foreground-blade:nth-child(2) { left: 24%; animation-delay: 0.5s; height: 12px; }
+    .foreground-blade:nth-child(3) { left: 36%; animation-delay: 1s; height: 15px; }
+    .foreground-blade:nth-child(4) { left: 48%; animation-delay: 1.5s; height: 20px; }
+    .foreground-blade:nth-child(5) { left: 60%; animation-delay: 2s; height: 16px; }
+    .foreground-blade:nth-child(6) { left: 72%; animation-delay: 2.5s; height: 14px; }
+    .foreground-blade:nth-child(7) { left: 84%; animation-delay: 3s; height: 17px; }
+    .foreground-blade:nth-child(8) { left: 18%; animation-delay: 1.2s; height: 19px; }
+    .foreground-blade:nth-child(9) { left: 30%; animation-delay: 2.2s; height: 14px; }
+    .foreground-blade:nth-child(10) { left: 42%; animation-delay: 3.2s; height: 16px; }
+    .foreground-blade:nth-child(11) { left: 54%; animation-delay: 1.7s; height: 21px; }
+    .foreground-blade:nth-child(12) { left: 66%; animation-delay: 2.7s; height: 15px; }
+    .foreground-blade:nth-child(13) { left: 78%; animation-delay: 3.7s; height: 13px; }
+    .foreground-blade:nth-child(14) { left: 90%; animation-delay: 1.9s; height: 18px; }
+
+    /* Stars */
+    .stars1, .stars2, .stars3 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background-color: white;
+      border-radius: 50%;
+    }
+
+    .stars1 .star {
+      animation: twinkle 4s infinite;
+    }
+
+    .stars2 .star {
+      animation: twinkle 6s infinite;
+    }
+
+    .stars3 .star {
+      animation: twinkle 8s infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.5); }
+    }
+
+    /* Glass Container */
+    .container2 {
+      position: absolute;
+      width: 220px; /* Ajuste ancho para la nueva base */
+      height: 340px; /* Ajuste alto para la nueva cúpula */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 2;
+      bottom: 80px;
+      animation: containerFloat 10s ease-in-out infinite;
+    }
+
+    @keyframes containerFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    /* Glass */
+    .glass {
+        position: relative;
+        width: 220px; /* Ancho ajustado para gotas de rocío */
+        height: 340px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .glass .glass-dome {
+        position: relative;
+        width: 200px;
+        height: 300px;
+        border-radius: 100px 100px 0 0;
+        background: var(--dome-glass-color);
+        border: 2px solid var(--dome-border-color);
+        box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
+        z-index: 10;
+        backdrop-filter: blur(2px);
+        margin-bottom: -20px;
+        transition: box-shadow 0.3s ease; /* Transición suave para el brillo al clic */
+    }
+
+    .glass:hover .particle { /* Dispersión de partículas al pasar el mouse */
+        transform: scale(1.2);
+        opacity: 0.6;
+    }
+
+
+    .glass.active .glass-dome { /* Clase "active" para el brillo al clic */
+        box-shadow: 0 0 40px rgba(255, 20, 147, 0.7); /* Brillo más intenso al clic */
+    }
+
+    .glass .arlett-name {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 14px; /* Tamaño pequeño y discreto */
+        color: rgba(255, 255, 255, 0.6); /* Color blanco semi-transparente */
+        font-family: sans-serif; /* Fuente sencilla y elegante */
+        z-index: 11; /* Asegurar que esté por encima de la cúpula de cristal */
+        pointer-events: none; /* Para que no interfiera con la interactividad */
+    }
+
+
+    /* Gotas de Rocío */
+    .dewdrops-container {
+        position: absolute;
+        top: 20px; /* Ajusta la posición superior de las gotas */
+        left: 20px; /* Ajusta la posición izquierda de las gotas */
+        right: 20px; /* Ajusta la posición derecha de las gotas */
+        height: 280px; /* Ajusta la altura del área de gotas */
+        z-index: 12; /* Asegura que las gotas estén por encima de la cúpula */
+        pointer-events: none; /* Para que no interfieran con la interactividad */
+    }
+
+    .dew-drop {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background-color: var(--dew-drop-color);
+        border-radius: 50%;
+        opacity: 0.7;
+        box-shadow: 0 0 5px var(--dew-drop-color); /* Brillo suave para las gotas */
+    }
+
+
+    /* Rose Base (Nueva Rosa) */
+    .rose-base {
+        position: relative; /* Posicionamiento relativo dentro de .glass */
+        width: 220px;
+        height: 40px;
+        background: var(--base-color);
+        border-radius: 50%;
+        z-index: 5;
+        box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.5); /* Sombra para "anclar" la base */
+    }
+
+    /* Rose Container (Nueva Rosa) */
+    .rose-container {
+        position: absolute; /* Posicionamiento absoluto dentro de .glass */
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 15;
+    }
+
+    /* Stem (Nueva Rosa) */
+    .rose-stem {
+        position: absolute; /* Posicionamiento absoluto dentro de .rose-container */
+        width: 4px;
+        height: 150px;
+        background: var(--stem-color);
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    /* Leaf (Nueva Rosa) */
+    .leaf {
+        position: absolute; /* Posicionamiento absoluto dentro de .rose-container */
+        width: 30px;
+        height: 15px;
+        background: var(--stem-color);
+        bottom: 60px;
+        border-radius: 50%;
+        transform: rotate(30deg);
+        left: 5px;
+    }
+
+    .leaf:nth-child(2) {
+        transform: rotate(-30deg);
+        left: -25px;
+    }
+
+    /* Rose Bloom (Nueva Rosa) */
+    .rose-bloom {
+        position: absolute; /* Posicionamiento absoluto dentro de .rose-container */
+        bottom: 150px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 60px;
+        filter: drop-shadow(0 0 15px var(--petal-color));
+    }
+
+    /* Petal (Nueva Rosa) */
+    .petal {
+        position: absolute; /* Posicionamiento absoluto dentro de .rose-bloom */
+        width: 40px;
+        height: 40px;
+        background: var(--petal-color);
+        border-radius: 50%;
+        transform-origin: bottom center;
+    }
+
+    .petal:nth-child(1) { transform: rotate(0deg) translateY(-10px); }
+    .petal:nth-child(2) { transform: rotate(45deg) translateY(-10px); }
+    .petal:nth-child(3) { transform: rotate(90deg) translateY(-10px); }
+    .petal:nth-child(4) { transform: rotate(135deg) translateY(-10px); }
+    .petal:nth-child(5) { transform: rotate(180deg) translateY(-10px); }
+    .petal:nth-child(6) { transform: rotate(225deg) translateY(-10px); }
+    .petal:nth-child(7) { transform: rotate(270deg) translateY(-10px); }
+    .petal:nth-child(8) { transform: rotate(315deg) translateY(-10px); }
+
+    /* Petal Center (Nueva Rosa) */
+    .petal-center {
+        position: absolute; /* Posicionamiento absoluto dentro de .rose-bloom */
+        width: 30px;
+        height: 30px;
+        background: var(--petal-color);
+        border-radius: 50%;
+        top: 15px;
+        left: 15px;
+    }
+
+    /* Fallen Petal (Nueva Rosa) */
+    .fallen-petal {
+        position: absolute; /* Posicionamiento absoluto dentro de .glass */
+        width: 20px;
+        height: 20px;
+        background: var(--petal-color);
+        border-radius: 50% 0 50% 50%;
+        bottom: 15px;
+        left: 40%;
+        transform: rotate(45deg);
+        box-shadow: 0 0 10px var(--petal-color);
+        animation: glow 2s infinite alternate;
+    }
+
+    .fallen-petal:nth-child(2) {
+        left: 60%;
+        width: 25px;
+        height: 25px;
+        animation-delay: 1s;
+    }
+
+
+    /* Lightning */
+    .lightning {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0;
+      background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.8), transparent 70%);
+      animation: lightning 15s infinite;
+    }
+
+    @keyframes lightning {
+      0%, 96%, 98%, 100% { opacity: 0; }
+      97%, 99% { opacity: 0.2; }
+    }
+
+    /* Moon */
+    .moon {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--moon-color-light), var(--moon-color-dark));
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+      z-index: 0;
+      animation: moonGlow 10s infinite alternate;
+    }
+
+    @keyframes moonGlow {
+      0% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); }
+      100% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); }
+    }
+
+    .moon-crater {
+      position: absolute;
+      background: rgba(210, 210, 210, 0.8);
+      border-radius: 50%;
+    }
+
+    .moon-crater:nth-child(1) {
+      top: 10px;
+      left: 15px;
+      width: 10px;
+      height: 10px;
+    }
+
+    .moon-crater:nth-child(2) {
+      top: 20px;
+      left: 25px;
+      width: 6px;
+      height: 6px;
+    }
+
+    .moon-crater:nth-child(3) {
+      top: 25px;
+      left: 10px;
+      width: 8px;
+      height: 8px;
+    }
+
+     /* Particle (Nueva Rosa - Modificado para estrellas) */
+    .particle {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: white;
+        border-radius: 50%;
+        animation: twinkle 4s infinite;
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease; /* Transición suave para dispersión */
+    }
+
+    @keyframes twinkle {
+        0%, 100% { opacity: 0.2; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.5); }
+    }
+
+    /* Shooting Star */
+    .shooting-star {
+      position: absolute;
+      top: 20%;
+      left: -200px;
+      width: 300px;
+      height: 3px;
+      background: linear-gradient(to right, transparent, var(--shooting-star-color), transparent);
+      opacity: 0;
+      animation: shootingStarAnimation 3s infinite linear;
+      z-index: 1;
+    }
+
+    .shooting-star::before {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: -3px;
+      width: 7px;
+      height: 7px;
+      background-color: white;
+      border-radius: 50%;
+    }
+
+
+    @keyframes shootingStarAnimation {
+      0% {
+        transform: translateX(0) rotate(10deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      40% {
+        opacity: 1;
+      }
+      60% {
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(calc(100vw + 200px)) rotate(10deg);
+        opacity: 0;
+      }
+    }
+
+
+  </style>
+</head>
+<body>
+     <div style="display: none;">
+    <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/773917225&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/armandotrovajoliofficial" title="Armando Trovajoli" target="_blank" style="color: #cccccc; text-decoration: none;">Armando Trovajoli</a> · <a href="https://soundcloud.com/armandotrovajoliofficial/lamore-dice-ciao-main-titles" title="L&#x27;amore dice Ciao (Main Titles) (Remastered)" target="_blank" style="color: #cccccc; text-decoration: none;">L&#x27;amore dice Ciao (Main Titles) (Remastered)</a></div>
+     </div>
+  <div class="container">
+    <div class="circle-container">
+      <div class="moon">
+        <div class="moon-crater"></div>
+        <div class="moon-crater"></div>
+        <div class="moon-crater"></div>
+      </div>
+      <div class="lightning"></div>
+      <div class="foreground-grass">
+        <div class="foreground-blade"></div>
+        <div class="foreground-blade"></div>
+        <div class="foreground-blade"></div>
+        <div class="foreground-blade"></div>
+        <div class="foreground-blade"></div>
+        <div class="foreground-blade"></div>
+        <div class="foreground-blade"></div>
+        <div class="foreground-blade"></div>
+        <div class="foreground-blade"></div>
+        <div class="foreground-blade"></div>
+        <div class="foreground-blade"></div>
+        <div class="foreground-blade"></div>
+        <div class="foreground-blade"></div>
+        <div class="foreground-blade"></div>
+      </div>
+      <div class="stars1"></div>
+      <div class="stars2"></div>
+      <div class="stars3"></div>
+      <div class="container2" id="glassContainer2">
+        <div class="glass" id="glassContent">
+          <div class="glass-dome"></div>
+          <span class="arlett-name">Para Arlett</span>
+          <div class="dewdrops-container" id="dewdrops"></div>  <!-- Contenedor para gotas de rocío -->
+          <div class="rose-base"></div>
+          <div class="rose-container">
+            <div class="rose-stem"></div>
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+            <div class="rose-bloom">
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal-center"></div>
+            </div>
+          </div>
+          <div class="fallen-petal"></div>
+          <div class="fallen-petal"></div>
+        </div>
+      </div>
+      <div class="shooting-star"></div>
+    </div>
+  </div>
+
+
+  <script>
+    // Estrellas Dinámicas (Originales - para el fondo circular)
+    function createStars(containerClass, numStars) {
+      const container = document.querySelector(`.${containerClass}`);
+      for (let i = 0; i < numStars; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.left = `${Math.random() * 100}%`;
+        container.appendChild(star);
+      }
+    }
+
+    createStars('stars1', 50);
+    createStars('stars2', 30);
+    createStars('stars3', 20);
+
+
+    // Partículas Dinámicas (Nuevas - ahora para estrellas alrededor de la rosa)
+    function createParticles() {
+        const container = document.querySelector('.container2 .glass'); /* Selecciona el contenedor correcto */
+        const rose = document.querySelector('.rose-bloom'); /* Selecciona la rosa */
+
+
+        for (let i = 0; i < 30; i++) { // Aumenté el número de partículas
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+
+            // Posición alrededor de la rosa (ajustado para container2 .glass)
+            const x = Math.random() * 200 - 100; // Más dispersas horizontalmente
+            const y = Math.random() * 300 - 150; // Más dispersas verticalmente
+
+            particle.style.left = `calc(50% + ${x}px)`; /* Centrado en .glass */
+            particle.style.top = `calc(50% + ${y}px)`;  /* Centrado en .glass */
+            particle.style.animationDelay = `${Math.random() * 7}s`;
+            container.appendChild(particle);
+        }
+    }
+
+    createParticles();
+
+
+    // Brillo al Clic en la Cúpula
+    const glassContainer2 = document.getElementById('glassContainer2');
+    const glassContent = document.getElementById('glassContent');
+
+
+    glassContainer2.addEventListener('click', () => {
+        glassContent.classList.add('active'); // Agrega la clase "active"
+        setTimeout(() => {
+            glassContent.classList.remove('active'); // Remueve la clase "active" después de un tiempo
+        }, 300); // 300ms de duración del brillo - ajustable
+    });
+
+
+    // Gotas de Rocío Dinámicas
+    const dewdropsContainer = document.getElementById('dewdrops');
+    const numDewdrops = 15; // Número de gotas de rocío - ajustable
+
+    for (let i = 0; i < numDewdrops; i++) {
+        const dewdrop = document.createElement('div');
+        dewdrop.classList.add('dew-drop');
+        dewdrop.style.top = `${Math.random() * 100}%`;
+        dewdrop.style.left = `${Math.random() * 100}%`;
+        dewdropsContainer.appendChild(dewdrop);
+    }
+
+
+  </script>
+</body>
+</html>
